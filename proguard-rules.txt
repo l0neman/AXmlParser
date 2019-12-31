@@ -1,0 +1,4 @@
+# Android Proguard 混淆配置。
+
+# 需要保证 type 包中的类成员顺序，避免混淆。
+-keep class io.l0neman.axmlparser.type.** { *; }

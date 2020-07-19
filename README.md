@@ -23,7 +23,7 @@ Android 二进制 Xml 文件解析器。
 
 例如 Apk 文件中的 AndroidManifest.xml（清单）、activity_main.xml（布局）等。
 
-目前已在处于生产环境的桌面美化的 App 中使用，用于读取图标包类型应用的图标清单，从而解析图标的路径。
+目前在一个桌面美化的 App 中使用，用于读取图标包类型应用的图标清单，从而解析图标的路径。
 
 ## 说明
 
@@ -317,8 +317,11 @@ public void print(String file) throws IOException;
     </activity>
   </application>
 </manifest>
+```
 
 
+
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="-1" android:layout_height="-1">
   <androidx.appcompat.widget.AppCompatTextView android:layout_gravity="0x00000011" android:id="@0x7f0700af" android:layout_width="-2" android:layout_height="-2" android:text="Hello World!" style="@0x7f0d00c4" />

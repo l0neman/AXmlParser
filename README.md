@@ -23,8 +23,6 @@ Android 二进制 Xml 文件解析器。
 
 例如 Apk 文件中的 AndroidManifest.xml（清单）、activity_main.xml（布局）等。
 
-目前在一个桌面美化的 App 中使用，用于读取图标包类型应用的图标清单，从而解析图标的路径。
-
 ## 说明
 
 项目编译环境 Java 8+，IntelliJ IDEA（Java 项目）或 Android Studio（Android 项目）均可。

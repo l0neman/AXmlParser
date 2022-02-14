@@ -18,29 +18,29 @@ public class Main {
       }
 
       @Override protected void startNamespace(String ns, String nsUri) {
-        System.out.println(String.format("#endNamespace ns: \"%s\", nsUri: \"%s\"", ns, nsUri));
+        System.out.printf("#endNamespace ns: \"%s\", nsUri: \"%s\"%n", ns, nsUri);
       }
 
       @Override protected void startElement(String ns, String nsUri, String elementName) {
-        System.out.println(String.format("#startElement ns: \"%s\", nsUri: \"%s\", elementName: \"%s\"",
-            ns, nsUri, elementName));
+        System.out.printf("#startElement ns: \"%s\", nsUri: \"%s\", elementName: \"%s\"%n",
+            ns, nsUri, elementName);
       }
 
       @Override protected void onData(String data) {
-        System.out.println(String.format("#onData data \"%s\"", data));
+        System.out.printf("#onData data \"%s\"%n", data);
       }
 
       @Override protected void onAttribute(String ns, String nsUri, String attrName, String attrValue) {
-        System.out.println(String.format("#onAttribute ns: \"%s\", nsUri: \"%s\", attrName \"%s\", attrValue \"%s\"",
-            ns, nsUri, attrName, attrValue));
+        System.out.printf("#onAttribute ns: \"%s\", nsUri: \"%s\", attrName \"%s\", attrValue \"%s\"%n",
+            ns, nsUri, attrName, attrValue);
       }
 
       @Override protected void endElement(String ns, String nsUri, String elementName) {
-        System.out.println(String.format("#endNamespace ns: \"%s\", nsUri: \"%s\"", ns, nsUri));
+        System.out.printf("#endNamespace ns: \"%s\", nsUri: \"%s\"%n", ns, nsUri);
       }
 
       @Override protected void endNamespace(String ns, String nsUri) {
-        System.out.println(String.format("#endNamespace ns: \"%s\", nsUri: \"%s\"", ns, nsUri));
+        System.out.printf("#endNamespace ns: \"%s\", nsUri: \"%s\"%n", ns, nsUri);
       }
 
       @Override protected void endXml() {

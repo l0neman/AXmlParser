@@ -52,35 +52,26 @@ public class StringPoolChunkParser {
     return b[0] & 0x7F;
   }
 
-  private String[] parseStringPool(ObjectInput objectIO, ResStringPoolHeader header, long stringPoolIndex)
+  private String[] parseStringPool(ObjectInput objectInput, ResStringPoolHeader header, long stringPoolIndex)
       throws IOException {
     String[] stringPool = new String[header.stringCount];
 
     for (int i = 0; i < header.stringCount; i++) {
       final long index = stringPoolIndex + stringIndexArray[i].index;
-      final int parseStringLength = parseStringLength(objectIO.readBytes(index, Short.BYTES));
+      final int parseStringLength = parseStringLength(objectInput.readBytes(index, Short.BYTES));
       // 经过测试，发现 flags 为0 时，字符串每个字符间会间隔一个空白符，长度变为 2 倍。
       final int stringLength = header.flags == 0 ? parseStringLength * 2 : parseStringLength;
 
-      // trim 去除多余空白符。
-      stringPool[i] = trim(new String(objectIO.readBytes(index + Short.BYTES, stringLength), 0,
-          stringLength, StandardCharsets.UTF_8));
+      if (header.flags == 0) {
+        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, stringLength), 0,
+                stringLength, StandardCharsets.UTF_16LE);
+      } else {
+        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, stringLength), 0,
+                stringLength, StandardCharsets.UTF_8);
+      }
     }
 
     return stringPool;
-  }
-
-  public static String trim(String str) {
-    final char[] chars = str.toCharArray();
-    int i = 0;
-    int j = 0;
-    while (j < chars.length) {
-      if (chars[j] != 0) {
-        chars[i++] = chars[j];
-      }
-      j++;
-    }
-    return new String(chars, 0, i);
   }
 
   private List<ResStringPoolSpan>[] parseStylePool(ObjectInput objectIO, ResStringPoolHeader header, long stylePoolIndex)

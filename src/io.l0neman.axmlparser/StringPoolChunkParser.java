@@ -48,26 +48,31 @@ public class StringPoolChunkParser {
     return styleIndexArray;
   }
 
+  private static int parseBytesLength(byte[] b) {
+    return b[1] & 0x7F;
+  }
+
   private static int parseStringLength(byte[] b) {
     return b[0] & 0x7F;
   }
 
   private String[] parseStringPool(ObjectInput objectInput, ResStringPoolHeader header, long stringPoolIndex)
-      throws IOException {
+          throws IOException {
     String[] stringPool = new String[header.stringCount];
 
     for (int i = 0; i < header.stringCount; i++) {
       final long index = stringPoolIndex + stringIndexArray[i].index;
-      final int parseStringLength = parseStringLength(objectInput.readBytes(index, Short.BYTES));
-      // 经过测试，发现 flags 为0 时，字符串每个字符间会间隔一个空白符，长度变为 2 倍。
-      final int stringLength = header.flags == 0 ? parseStringLength * 2 : parseStringLength;
 
       if (header.flags == 0) {
-        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, stringLength), 0,
-                stringLength, StandardCharsets.UTF_16LE);
+        final int parseStringLength = parseStringLength(objectInput.readBytes(index, Short.BYTES));
+        final int bytesLength = parseStringLength * 2;
+
+        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, bytesLength), 0,
+                bytesLength, StandardCharsets.UTF_16LE);
       } else {
-        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, stringLength), 0,
-                stringLength, StandardCharsets.UTF_8);
+        final int parseBytesLength = parseBytesLength(objectInput.readBytes(index, Short.BYTES));
+        stringPool[i] = new String(objectInput.readBytes(index + Short.BYTES, parseBytesLength), 0,
+                parseBytesLength, StandardCharsets.UTF_8);
       }
     }
 
